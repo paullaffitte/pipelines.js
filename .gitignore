@@ -1,0 +1,12 @@
+# Lockfiles, libraries should never commit their lockfiles.
+package-lock.json
+yarn.lock
+
+docs
+lib
+node_modules
+
+yarn-error.log
+
+.nyc_output
+coverage
