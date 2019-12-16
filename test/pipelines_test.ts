@@ -23,11 +23,6 @@ describe('Pipelines', () => {
 			});
 		};
 
-		const logExecutor: Executor<string, null> = message => {
-			console.log(message);
-			return null;
-		};
-
 		const pp = new Pipelines(defaultExecutor);
 
 		const executionList = [
@@ -37,9 +32,9 @@ describe('Pipelines', () => {
 		];
 		console.log(pp);
 		const executionTree = pp.sequence([
-			pp.with(logExecutor).exec('Parallel pipelines'),
+			pp.with(console.log).exec('Parallel pipelines'),
 			pp.parallel(executionList),
-			pp.with(logExecutor).exec('Sequencial pipelines'),
+			pp.with(console.log).exec('Sequencial pipelines'),
 			pp.sequence(executionList),
 		]);
 		console.log(JSON.stringify(await executionTree.execute(), null, 2));
