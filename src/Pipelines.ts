@@ -1,25 +1,27 @@
-import { ExecutionHandler, ExecutionNode, Executor } from './ExecutionNode';
+import { ExecutionHandler, ExecutionNode, Executor, Hook } from './ExecutionNode';
 
 export default class Pipelines<T, U> {
-	executor: Executor<T, U>;
+	private executor: Executor<T, U>;
+	private hooks?: Hook[];
 
-	constructor(executor: Executor<T, U>) {
+	constructor(executor: Executor<T, U>, hooks?: Hook[]) {
 		this.executor = executor;
+		this.hooks = hooks;
 	}
 
 	public node(
 		executionHandler: ExecutionHandler<T, U>,
 		nodes: ExecutionNode<T, U>[]
 	): ExecutionNode<ExecutionNode<T, U>[], U> {
-		return new ExecutionNode(executionHandler, nodes);
+		return new ExecutionNode(executionHandler, nodes, this.hooks);
 	}
 
 	public exec(config: T): ExecutionNode<T, U> {
-		return new ExecutionNode(this.executor, config);
+		return new ExecutionNode(this.executor, config, this.hooks);
 	}
 
 	public with<V, W>(executor: Executor<V, W>): Pipelines<V, W> {
-		return new Pipelines(executor);
+		return new Pipelines(executor, this.hooks);
 	}
 
 	public sequence(nodes: ExecutionNode<any, any>[]): ExecutionNode<ExecutionNode<T, U>[], U> {
