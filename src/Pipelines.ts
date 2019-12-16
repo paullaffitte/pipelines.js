@@ -9,15 +9,11 @@ export default class Pipelines<T, U> {
 	}
 
 	public node(executionHandler: ExecutionHandler<T, U>, nodes: ExecutionNode<T, U>[]) {
-		return new ExecutionNode({
-			executionHandler,
-			executor: this.executor,
-			nodes
-		});
+		return new ExecutionNode<ExecutionNode<T, U>[], U>(executionHandler, nodes);
 	}
 
 	public exec(config: T): ExecutionNode<T, U> {
-		return new ExecutionNode<T, U>({ executor: this.executor, config});
+		return new ExecutionNode<T, U>(this.executor, config);
 	}
 
 	public with<V, W>(executor: Executor<V, W>) {
