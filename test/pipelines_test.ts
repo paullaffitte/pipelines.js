@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import pipelines from '../src/Pipelines';
+import Pipelines from '../src/Pipelines';
 import { Executor } from '../src/ExecutionNode';
 import 'mocha';
 
@@ -7,7 +7,7 @@ describe('Pipelines', () => {
 	it('should works', async () => {
 		expect(true).to.equal(true);
 
-		const defaultExecutor: Executor<{ success: boolean, error: boolean, output: number }> = async config => {
+		const defaultExecutor: Executor<any, { success: boolean, error: boolean, output: number }> = async config => {
 			return new Promise<{ success: boolean, error: boolean, output: number }>(resolve => {
 				setTimeout(() => {
 					console.log(`${config.index} done (${config.duration}ms)`);
@@ -20,18 +20,19 @@ describe('Pipelines', () => {
 			});
 		};
 
-		const logExecutor: Executor<null> = message => {
+		const logExecutor: Executor<string, null> = message => {
 			console.log(message);
 			return null;
 		}
 
-		const pp = pipelines(defaultExecutor);
+		const pp = new Pipelines(defaultExecutor);
 
 		const executionList = [pp.exec({ index: 1, duration: 500 }), pp.exec({ index: 2, duration: 300 }), pp.exec({ index: 3, duration: 100 })];
+		console.log(pp);
 		const executionTree = pp.sequence([
-			pp(logExecutor).exec('Parallel pipelines'),
+			pp.with(logExecutor).exec('Parallel pipelines'),
 			pp.parallel(executionList),
-			pp(logExecutor).exec('Sequencial pipelines'),
+			pp.with(logExecutor).exec('Sequencial pipelines'),
 			pp.sequence(executionList),
 		]);
 		console.log(JSON.stringify(await executionTree.execute(), null, 2));

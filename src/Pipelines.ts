@@ -1,20 +1,37 @@
 import { ExecutionHandler, ExecutionNode, Executor } from './ExecutionNode';
 
-function newPipelineBuilder(config: Record<string, ExecutionHandler<any, any>>, executor: Executor<any>) {
-	const pp: Record<string, (arg: any) => ExecutionNode<any, any>> = {}
+export default class Pipelines<T, U> {
 
-	for (const key in config) {
-		pp[key] = (nodes: Array<ExecutionNode<any, any>>) => new ExecutionNode({
-			executionHandler: config[key],
-			executor,
+	executor: Executor<T, U>;
+
+	constructor(executor: Executor<T, U>) {
+		this.executor = executor;
+	}
+
+	public node(executionHandler: ExecutionHandler<T, U>, nodes: ExecutionNode<T, U>[]) {
+		return new ExecutionNode({
+			executionHandler,
+			executor: this.executor,
 			nodes
 		});
 	}
 
-	pp.exec = (config) => new ExecutionNode({ executor, config });
+	public exec(config: T): ExecutionNode<T, U> {
+		return new ExecutionNode<T, U>({ executor: this.executor, config});
+	}
 
-	return pp;
-};
+	public with<V, W>(executor: Executor<V, W>) {
+		return new Pipelines(executor);
+	}
+
+	public sequence(nodes: ExecutionNode<any, any>[]) {
+		return this.node(executionHandlers.sequence, nodes);
+	}
+
+	public parallel(nodes: ExecutionNode<any, any>[]) {
+		return this.node(executionHandlers.parallel, nodes);
+	}
+}
 
 export const executionHandlers: Record<string, ExecutionHandler<any, any>> = {
 	sequence: async (nodes) => {
@@ -30,11 +47,3 @@ export const executionHandlers: Record<string, ExecutionHandler<any, any>> = {
 		return Promise.all(nodes.map(node => node.execute()));
 	}
 };
-
-export default function pipelines(executor: Executor<any>, config: Record<string, ExecutionHandler<any, any>> = {}) {
-	const mergedConfig = { ...executionHandlers, ...config };
-	const executorUpdater = (newExecutor: Executor<any>) => newPipelineBuilder(mergedConfig, newExecutor);
-	const pp = newPipelineBuilder(mergedConfig, executor);
-
-	return Object.assign(executorUpdater, pp);
-}

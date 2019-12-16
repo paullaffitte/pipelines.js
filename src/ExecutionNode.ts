@@ -1,6 +1,6 @@
 type Result<T> = T | Promise<T>;
 
-export type Executor<U> = (config: any) => Result<U>;
+export type Executor<T, U> = (config: T) => Result<U>;
 
 export type ExecutionHandler<T, U> = ((nodes: ExecutionNode<T, U>[]) => Result<U>);
 
@@ -10,7 +10,7 @@ type ExecutionVertexConfig<T, U> = {
 };
 
 type ExecutionLeaveConfig<T, U> = {
-	executor: Executor<U>,
+	executor: Executor<T, U>,
 	config: T
 };
 
