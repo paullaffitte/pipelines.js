@@ -8,16 +8,13 @@ The goal of pipelines.js is to provide an **easy to use** framework to build **e
 
 ## Getting started
 
-### Documentation
-
-First, I would recommend to read the documentation. In order to generate it, after cloning the repository, please run the following commands.
+### Installation
 
 ```sh
-$ npm install
-$ npm run docs
+$ npm i @paullaffitte/pipelines.js
+# or
+$ yarn add @paullaffitte/pipelines.js
 ```
-
-And then open `./docs/index.html`.
 
 ### Principle, concepts and examples
 
@@ -130,3 +127,16 @@ Sequencial pipelines
 See how you can find the values returned by our default executor at the leaves of the result tree.
 
 This example was taken from [tests](./test/pipelines_test.ts), I recommend you to read them and run them if you want to get a better understanding.
+
+### Documentation
+
+In order to generate the documentation, please run the following commands.
+
+```sh
+$ git clone git@github.com:paullaffitte/pipelines.js.git
+$ cd pipelines.js
+$ npm install
+$ npm run docs
+```
+
+And then open `./docs/index.html`.
