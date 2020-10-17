@@ -10,7 +10,7 @@ The goal of pipelines.js is to provide an **easy to use** framework to build **e
 
 ### Documentation
 
-First, I would recommend to read the documentation. In order to generate it, please run the following commands.
+First, I would recommend to read the documentation. In order to generate it, after cloning the repository, please run the following commands.
 
 ```sh
 $ npm install
@@ -26,9 +26,11 @@ And then open `./docs/index.html`.
 You start with the base class `Pipelines`. It's using the [design pattern *builder*](https://refactoring.guru/design-patterns/builder) to help creating your execution tree. When instanciating it, you can provide a `Executor` and `Hooks`.
 
 ```js
+const Pipelines = require('@paullaffitte/pipelines.js');
+
 // This executor will returns its calculated duration after a defined duration
-const defaultExecutor: Executor<{ index: number; duration: number }, number> = async config => {
-  return new Promise<number>(resolve => {
+const defaultExecutor = async config => {
+  return new Promise(resolve => {
     const start = Date.now();
     setTimeout(() => resolve(Date.now() - start), config.duration);
   });
@@ -93,8 +95,8 @@ const executionTree = pp.sequence([
 You can then execute the tree you just built. All values returned but the executors will be returned as a result tree.
 
 ```js
-executionTree.execute().then(result => {
-  console.log(JSON.stringify(result, null, 2));
+executionTree.execute().then(resultTree => {
+  console.log(JSON.stringify(resultTree, null, 2));
 });
 ```
 
