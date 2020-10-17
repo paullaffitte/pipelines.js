@@ -83,7 +83,7 @@ const executionTree = pp.sequence([
   // We execute the previously defined execution tree in parallel
   pp.parallel(executionList),
   // Another logging
-  pp.with(console.log).exec('Sequencial pipelines'),
+  pp.with(console.log).exec('sequential pipelines'),
   // We execute the previously defined execution tree serially
   pp.sequence(executionList),
 ]);
@@ -104,7 +104,7 @@ Parallel pipelines
 3 done (100ms)
 2 done (300ms)
 1 done (500ms)
-Sequencial pipelines
+sequential pipelines
 1 done (500ms)
 2 done (300ms)
 3 done (100ms)

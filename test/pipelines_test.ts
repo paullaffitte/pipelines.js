@@ -34,7 +34,7 @@ describe('Pipelines', () => {
 		const executionTree = pp.sequence([
 			pp.with(console.log).exec('Parallel pipelines'),
 			pp.parallel(executionList),
-			pp.with(console.log).exec('Sequencial pipelines'),
+			pp.with(console.log).exec('sequential pipelines'),
 			pp.sequence(executionList),
 		]);
 
