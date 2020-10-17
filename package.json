@@ -1,7 +1,8 @@
 {
   "name": "@paullaffitte/pipelines.js",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.1",
+  "main": "lib/Pipelines.js",
+  "types": "lib/Pipelines.d.ts",
   "repository": "git@github.com:paullaffitte/pipelines.js.git",
   "author": "Paul Laffitte <paul.laffitte@epitech.eu>",
   "license": "MIT",
@@ -16,7 +17,8 @@
     "test-nocover": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"sourceMap\":true}' mocha -r ts-node/register --require source-map-support/register --full-trace --bail \"test/**/*_test.ts\"",
     "cs-check": "prettier -l \"{src,test,bin}/**/*.{js,ts}\"",
     "cs-format": "prettier \"{src,test,bin}/**/*.{js,ts}\" --write",
-    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\""
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",
