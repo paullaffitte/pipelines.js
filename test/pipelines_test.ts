@@ -5,8 +5,6 @@ import 'mocha';
 
 describe('Pipelines', () => {
 	it('should works', async () => {
-		expect(true).to.equal(true);
-
 		const defaultExecutor: Executor<{ index: number; duration: number }, number> = async config => {
 			return new Promise<number>(resolve => {
 				const start = Date.now();
@@ -20,6 +18,9 @@ describe('Pipelines', () => {
 
 				if (typeof config.index == 'number') {
 					console.log(`${config.index} done (${output}ms)`);
+					expect(output).to.be.a('number');
+					expect(config.duration).to.be.a('number');
+					expect(Math.abs(output - config.duration)).to.be.below(50);
 				}
 			},
 		]);
@@ -37,6 +38,21 @@ describe('Pipelines', () => {
 			pp.sequence(executionList),
 		]);
 
-		console.log(JSON.stringify(await executionTree.execute(), null, 2));
+		const resultTree: Array<any> = await executionTree.execute();
+		console.log(JSON.stringify(resultTree, null, 2));
+
+		expect(resultTree).to.be.an('array');
+		expect(resultTree.length).to.equals(4);
+
+		expect(resultTree[0]).to.equals(undefined);
+		expect(resultTree[2]).to.equals(undefined);
+
+		expect(resultTree[1]).to.be.an('array');
+		expect(resultTree[1].length).to.equals(3);
+		resultTree[1].forEach((output: any) => expect(output).to.be.a('number'));
+
+		expect(resultTree[3]).to.be.an('array');
+		expect(resultTree[3].length).to.equals(3);
+		resultTree[3].forEach((output: any) => expect(output).to.be.a('number'));
 	});
 });

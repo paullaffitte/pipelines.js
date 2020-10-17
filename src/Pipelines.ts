@@ -59,7 +59,7 @@ export default class Pipelines<T, U> {
 	 * @param {ExecutionNode<any, any>[]} nodes The list of nodes to be executed.
 	 * @returns The newly created {@link ExecutionNode}.
 	 */
-	public sequence(nodes: ExecutionNode<any, any>[]): ExecutionNode<ExecutionNode<T, U>[], U> {
+	public sequence(nodes: ExecutionNode<any, any>[]): ExecutionNode<ExecutionNode<T, U>[], any> {
 		return this.node(executionHandlers.sequence, nodes);
 	}
 
@@ -69,7 +69,7 @@ export default class Pipelines<T, U> {
 	 * @param {ExecutionNode<any, any>[]} nodes The list of nodes to be executed.
 	 * @returns The newly created {@link ExecutionNode}.
 	 */
-	public parallel(nodes: ExecutionNode<any, any>[]): ExecutionNode<ExecutionNode<T, U>[], U> {
+	public parallel(nodes: ExecutionNode<any, any>[]): ExecutionNode<ExecutionNode<T, U>[], any> {
 		return this.node(executionHandlers.parallel, nodes);
 	}
 }
