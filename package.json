@@ -1,8 +1,8 @@
 {
   "name": "@paullaffitte/pipelines.js",
-  "version": "1.0.1",
-  "main": "lib/Pipelines.js",
-  "types": "lib/Pipelines.d.ts",
+  "version": "1.0.2",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": "git@github.com:paullaffitte/pipelines.js.git",
   "author": "Paul Laffitte <paul.laffitte@epitech.eu>",
   "license": "MIT",
