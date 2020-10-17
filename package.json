@@ -10,7 +10,7 @@
     "watch": "tsc -w",
     "docs": "typedoc",
     "tdd": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register --watch --watch-extensions ts \"test/**/*_test.ts\"",
-    "test": "test-nocover",
+    "test": "npm run test-nocover",
     "test-cover": "nyc --reporter=lcov --reporter=text-summary --report-dir=coverage npm run test-nocover",
     "test-cover-html": "nyc --reporter=html --report-dir=coverage npm run test-nocover",
     "test-nocover": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"sourceMap\":true}' mocha -r ts-node/register --require source-map-support/register --full-trace --bail \"test/**/*_test.ts\"",
